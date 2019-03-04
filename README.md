@@ -1,6 +1,6 @@
-# Calculadora do windows 10 em HTML
+# Calculadora do Wwindows 10 em HTML (Clone)
 
-[![Hcode Treinamentos](https://www.hcode.com.br/res/img/hcode-200x100.png)](https://www.hcode.com.br)
+[![ClickW](https://www.clickw.com.br/img/png/logo_clickw_FB_v1.fw.png)](https://www.clickw.com.br)
 
 Calculadora desenvolvida como exemplo do Curso Completo de JavaScript na Udemy.com.
 
