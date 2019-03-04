@@ -1,6 +1,6 @@
 # Calculadora do Wwindows 10 em HTML (Clone)
 
-[![ClickW](https://www.clickw.com.br/img/png/logo_clickw_FB_v1.fw.png)](https://www.clickw.com.br)
+[![ClickW](https://www.clickw.com.br/img/png/logo_150x55.png)](https://www.clickw.com.br)
 
 Calculadora desenvolvida como exemplo do Curso Completo de JavaScript na Udemy.com.
 
