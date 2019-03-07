@@ -1,4 +1,4 @@
-# Calculadora do Wwindows 10 em HTML (Clone)
+# Calculadora do Windows 10 em HTML (Clone)
 
 [![ClickW](https://www.clickw.com.br/img/png/logo_150x55.png)](https://www.clickw.com.br)
 

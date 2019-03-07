@@ -7,115 +7,72 @@
     <title>Calculadora Win10 Clone</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
-    <style>
-    body {
-        background-color:#050505;
-    }
-    .center {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        
-    }
-    #calculadora {
-        background-color: #B1B1B1;
-        width: 322px;
-        height: 500px;
-        padding: 6px;
-    }
-    #calculadora .btn {
-        margin: 2px;
-        border-radius: 0;
-        min-height: 44px;
-        outline: none;
-        box-shadow: none;
-    }
-    #calculadora .btn:hover {
-        background-color: #BCBCBC;
-    }
-    #calculadora .btn:active {
-        background-color: #909090;
-    }
-    header {
-        height: 205px;
-        font-size: 36px;
-        font-weight: bold;
-        position: relative;
-    }
-    #display {
-        color: #000;
-        text-align: right;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        font-size: 48px;
-        font-weight: 600;
-    }
-    .btn-number {
-        background-color: #EFEFEF;
-        font-size: 24px;
-        padding-top: 0;
-        padding-bottom: 0;
-        font-weight: 600;
-    }
-    .btn-others {
-        background-color: #D1D1D1;
-        padding-top: 0;
-        padding-bottom: 0;
-        font-size: 20px;
-    }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/win10Calculator.css" />
 </head>
 <body>
     
     <div class="center">
         <div id="calculadora">
             <header>
-                <div id="display">
-                    0
+                <div class="row">
+                    <div id="displayHistory"></div>
+                </div>
+                <div class="row">
+                    <div id="display"></div>
                 </div>
             </header>
             <section class="container">
                 <div class="row">
-                    <button type="button" class="btn btn-others col-sm">%</button>
-                    <button type="button" class="btn btn-others col-sm">√</button>
-                    <button type="button" class="btn btn-others col-sm">x²</button>
-                    <button type="button" class="btn btn-others col-sm">¹/x</button>
+                    <button type="button" class="btn btnm btn-memory col-sm" id="MC" title="Clear All Memory" alt="Clear All Memory" disabled>MC</button>
+                    <button type="button" class="btn btnm btn-memory col-sm" id="MR" title="Memory Recall" alt="Memory Recall">MR</button>
+                    <button type="button" class="btn btnm btn-memory col-sm" id="M+" title="Memory Adding" alt="Memory Adding">M+</button>
+                    <button type="button" class="btn btnm btn-memory col-sm" id="M-" title="Memory Subtracting" alt="Memory Subtracting">M-</button>
+                    <button type="button" class="btn btnm btn-memory col-sm" id="MS" title="Store in Memory" alt="Store in Memory">MS</button>
+                    <button type="button" class="btn btnm btn-memory col-sm" id="Mˇ" title="Memory History" alt="Memory History">Mˇ</button>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-others col-sm">CE</button>
-                    <button type="button" class="btn btn-others col-sm">C</button>
-                    <button type="button" class="btn btn-others col-sm">←</button>
-                    <button type="button" class="btn btn-others col-sm">÷</button>
+                    <button type="button" class="btn btn-others col-sm" id="%" title="Percent" alt="Percent">%</button>
+                    <button type="button" class="btn btn-others col-sm" id="√" title="Square Root" alt="Square Root">√</button>
+                    <button type="button" class="btn btn-others col-sm" id="x²" title="Square" alt="Square">x²</button>
+                    <button type="button" class="btn btn-others col-sm" id="¹/x" title="Reciprocal" alt="Reciprocal">¹/x</button>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-number col-sm">7</button>
-                    <button type="button" class="btn btn-number col-sm">8</button>
-                    <button type="button" class="btn btn-number col-sm">9</button>
-                    <button type="button" class="btn btn-others col-sm">X</button>
+                    <button type="button" class="btn btn-others col-sm" id="CE" title="Clear Entry" alt="Clear Entry">CE</button>
+                    <button type="button" class="btn btn-others col-sm" id="C" title="Clear All" alt="Clear All ">C</button>
+                    <button type="button" class="btn btn-others col-sm" id="←" title="Backspace" alt="Backspace">←</button>
+                    <button type="button" class="btn btn-others col-sm" id="÷" title="Divided by" alt="Divided by">÷</button>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-number col-sm">4</button>
-                    <button type="button" class="btn btn-number col-sm">5</button>
-                    <button type="button" class="btn btn-number col-sm">6</button>
-                    <button type="button" class="btn btn-others col-sm">-</button>
+                    <button type="button" class="btn btn-number col-sm" id="7">7</button>
+                    <button type="button" class="btn btn-number col-sm" id="8">8</button>
+                    <button type="button" class="btn btn-number col-sm" id="9">9</button>
+                    <button type="button" class="btn btn-others col-sm" id="x" title="Multiplied by" alt="Multiplied by">x</button>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-number col-sm">1</button>
-                    <button type="button" class="btn btn-number col-sm">2</button>
-                    <button type="button" class="btn btn-number col-sm">3</button>
-                    <button type="button" class="btn btn-others col-sm">+</button>
+                    <button type="button" class="btn btn-number col-sm" id="4">4</button>
+                    <button type="button" class="btn btn-number col-sm" id="5">5</button>
+                    <button type="button" class="btn btn-number col-sm" id="6">6</button>
+                    <button type="button" class="btn btn-others col-sm" id="-" title="Minus" alt="Minus">-</button>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-others col-sm">±</button>
-                    <button type="button" class="btn btn-number col-sm">0</button>
-                    <button type="button" class="btn btn-others col-sm">,</button>
-                    <button type="button" class="btn btn-others col-sm">=</button>
+                    <button type="button" class="btn btn-number col-sm" id="1">1</button>
+                    <button type="button" class="btn btn-number col-sm" id="2">2</button>
+                    <button type="button" class="btn btn-number col-sm" id="3">3</button>
+                    <button type="button" class="btn btn-others col-sm" id="+" title="Plus" alt="Plus">+</button>
+                </div>
+                <div class="row">
+                    <button type="button" class="btn btn-others col-sm" id="±" title="Absolute Value" alt="Absolute Value">±</button>
+                    <button type="button" class="btn btn-number col-sm" id="0">0</button>
+                    <button type="button" class="btn btn-others col-sm" id="," title="Comma" alt="Comma">,</button>
+                    <button type="button" class="btn btn-others col-sm" id="=" title="Result" alt="Result">=</button>
                 </div>
             </section>
         </div>
+        <div id="memoria">testestes</div>
     </div>
-
+    <script src="node_modules/jquery/dist/jquery.min.js"></script>
+    <script	src="js/controller/win10CalculatorController.js"></script>
+    <script src="js/win10Calculator.js"></script>
 </body>
+
 </html>
