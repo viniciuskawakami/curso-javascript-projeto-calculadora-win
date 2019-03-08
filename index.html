@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" media="screen" href="node_modules/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="css/win10Calculator.css" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+        integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 <body>
     
@@ -18,14 +20,14 @@
                     <div id="displayHistory"></div>
                 </div>
                 <div class="row">
-                    <div id="display"></div>
+                    <div id="display" class='display'></div>
                 </div>
             </header>
             <section class="container">
                 <div class="row">
-                    <button type="button" class="btn btnm btn-memory col-sm" id="MC" title="Clear All Memory" alt="Clear All Memory" disabled>MC</button>
+                    <button type="button" class="btn btnm btn-memory col-sm" id="MC" title="Clear All Memory" alt="Clear All Memory">MC</button>
                     <button type="button" class="btn btnm btn-memory col-sm" id="MR" title="Memory Recall" alt="Memory Recall">MR</button>
-                    <button type="button" class="btn btnm btn-memory col-sm" id="M+" title="Memory Adding" alt="Memory Adding">M+</button>
+                    <button type="button" class="btn btnm btn-memory btn-mplus col-sm" id="M+" title="Memory Adding" alt="Memory Adding">M+</button>
                     <button type="button" class="btn btnm btn-memory col-sm" id="M-" title="Memory Subtracting" alt="Memory Subtracting">M-</button>
                     <button type="button" class="btn btnm btn-memory col-sm" id="MS" title="Store in Memory" alt="Store in Memory">MS</button>
                     <button type="button" class="btn btnm btn-memory col-sm" id="Mˇ" title="Memory History" alt="Memory History">Mˇ</button>
@@ -37,7 +39,7 @@
                     <button type="button" class="btn btn-others col-sm" id="¹/x" title="Reciprocal" alt="Reciprocal">¹/x</button>
                 </div>
                 <div class="row">
-                    <button type="button" class="btn btn-others col-sm" id="CE" title="Clear Entry" alt="Clear Entry">CE</button>
+                    <button type="button" class="btn btn-others col-sm btn-ce" id="CE" title="Clear Entry" alt="Clear Entry" ondblclick="calculator.toggleAudio()">CE</button>
                     <button type="button" class="btn btn-others col-sm" id="C" title="Clear All" alt="Clear All ">C</button>
                     <button type="button" class="btn btn-others col-sm" id="←" title="Backspace" alt="Backspace">←</button>
                     <button type="button" class="btn btn-others col-sm" id="÷" title="Divided by" alt="Divided by">÷</button>
@@ -68,7 +70,8 @@
                 </div>
             </section>
         </div>
-        <div id="memoria">testestes</div>
+        <div id="memoria"></div>
+        <div id="memFooter"><button class="btn btn-trash" id="BMC" title="Clear All Memory" alt="Clear All Memory" onclick="calculator.memoryClearAll()"><i class="far fa-trash-alt"></i></div></button>
     </div>
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script	src="js/controller/win10CalculatorController.js"></script>

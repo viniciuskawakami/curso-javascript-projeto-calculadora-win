@@ -5,12 +5,14 @@ class Win10CalculatorController {
 		this._memoryData		= '';
 		this._memoryHistory		= [];
 		this._memoryOnOff		= false;
+		this._memoryHistoryOnOff = false;
 		this._audio 			= new Audio('./audio/beep.wav');
 		this._audioOnOff 		= false;
 		this._lastOperator 		= '';
 		this._lastResult 		= '';
 		this._operation 		= [];
 		this._locale 			= 'pt-BR';
+		this._displayMemHistEl	= document.querySelector("#memoria");
 		this._displayCalcEl 	= document.querySelector("#display");
 		this._displayHistEl 	= document.querySelector("#displayHistory");
 		this.initialize();
@@ -18,14 +20,16 @@ class Win10CalculatorController {
 		this.initKeyboard();
 	}
 	initialize(){
+		this.setLastNumberToDisplay();
 		this.toggleMemory();
 		
-		document.querySelectorAll('.btn-others').forEach(btn => {
-			if (btn.textContent == 'CE') {
-				btn.addEventListener('dblclick', e => {
-					this.toggleAudio();
-				});
-			}
+		document.querySelectorAll('.display').forEach(btn => {
+			btn.addEventListener('dblclick', e => {
+				this._memoryOnOff = false;
+				this._memoryHistoryOnOff = true;
+				this.toggleMemoryHistoric();
+				this.toggleMemory();
+			});
 		});
 	}
 	initButtonsEvents(){
@@ -45,7 +49,7 @@ class Win10CalculatorController {
 	initKeyboard(){
 		document.addEventListener('keyup', e => {
 			this.playAudio();
-			// console.warn('e.code: ' + e.code.slice(0, 6) + ' e.key: ' + e.key);
+			console.warn('e.code: ' + e.code.slice(0, 6) + ' e.key: ' + e.key);
 			switch (e.key) {
 				case 'Escape':
 					this.clearAll();
@@ -124,6 +128,29 @@ class Win10CalculatorController {
 			}
 		});
 	}
+	toggleMemoryHistoric() {
+		if (!this._memoryHistoryOnOff) {
+			this._memoryHistoryOnOff = true;
+			this.memoryHistoric();
+			$('#MC').attr('disabled', 'disabled');
+			$('#MR').attr('disabled', 'disabled');
+			$('.btn-mplus').attr('disabled', 'disabled');
+			$('#M-').attr('disabled', 'disabled');
+			$('#MS').attr('disabled', 'disabled');
+			$("#memoria").slideDown();
+			$("#memFooter").slideDown();
+		} else {
+			this._memoryHistoryOnOff = false;
+			this.memoryHistoric();
+			$('#MC').removeAttr('disabled', 'disabled');
+			$('#MR').removeAttr('disabled', 'disabled');
+			$('.btn-mplus').removeAttr('disabled', 'disabled');
+			$('#M-').removeAttr('disabled', 'disabled');
+			$('#MS').removeAttr('disabled', 'disabled');
+			$("#memoria").slideUp();
+			$("#memFooter").slideUp();
+		}
+	}
 	toggleMemory() {
 		if (this._memoryOnOff){		
 			this._memoryOnOff = false;
@@ -141,6 +168,7 @@ class Win10CalculatorController {
 		this._memoryData = '';
 		this._memoryHistory = [];
 		this._memoryOnOff = false;
+		this._memoryHistoryOnOff = false;
 		this.toggleMemory();
 		this.setMessage('Memory has been cleared!');
 		this.clearMessage();
@@ -148,17 +176,19 @@ class Win10CalculatorController {
 	memoryRecall(){
 		let valueDisplay = this._memoryData;
 		this.displayCalc = valueDisplay;
-		this._memoryHistory.push(this._memoryData); 
 		this.setMessage('Value has been recalled from memory');
-		this.clearMessage();		
+		this.clearMessage();
 	}
 	memoryAdding(){
 		let valueDisplay = this.displayCalc;
 		let valueMem = (this._memoryData) ? this._memoryData : 0;
-		let value = eval(`(${valueDisplay} + ${valueMem})`);
+		let value = eval(`(${valueMem} + ${valueDisplay})`);
+		
 		this._memoryData = parseFloat(value);
-		this._memoryHistory.push(valueMem); 
+		this._memoryHistory.push(valueDisplay);
+		
 		if(this._memoryOnOff == true) this.toggleMemory();
+		
 		this.setMessage('Value has been added in memory');
 		this.clearMessage();
 	}
@@ -166,21 +196,41 @@ class Win10CalculatorController {
 		let valueDisplay = this.displayCalc;
 		let valueMem = (this._memoryData) ? this._memoryData : 0;
 		let value = eval(`(${valueMem} - ${valueDisplay})`);
+		
 		this._memoryData = parseFloat(value);
-		this._memoryHistory.push(value);
-		if (this._memoryOnOff == true) this.toggleMemory();
-		this.setMessage('Value has been stored in memory');
-		this.clearMessage();		
-	}
-	memoryStore(){
-		let valueDisplay = this.displayCalc;
-		this._memoryData = parseFloat(valueDisplay);
 		this._memoryHistory.push(valueDisplay);
+		
 		if (this._memoryOnOff == true) this.toggleMemory();
+		
 		this.setMessage('Value has been stored in memory');
 		this.clearMessage();
 	}
-	memoryHistoric(){}
+	memoryStore(){
+		let valueDisplay = this.displayCalc;
+		
+		this._memoryData = parseFloat(valueDisplay);
+		this._memoryHistory.push(valueDisplay);
+		
+		if (this._memoryOnOff == true) this.toggleMemory();
+		
+		this.setMessage('Value has been stored in memory');
+		this.clearMessage();
+	}
+	memoryHistoric() {
+		let memList = '';
+		let memHtml = '';
+		this.displayMemoryHistory = '';
+		
+		if (this._memoryHistory.length > 0) {
+			for (var i = 0; i < this._memoryHistory.length; i++) {
+				memList = "<li>" + this._memoryHistory[i] + "<br /><button type='button' class='btn btn-mli btn-mmclear' title='Clear All Memory' alt='Clear All Memory'>MC</button><button type='button' class='btn btn-mli btn-mmplus' title = 'Memory Adding' alt='Memory Adding'>M+</button><button type='button' class='btn btn-mli btn-mmminus' title='Memory Subtracting' alt='Memory Subtracting'>M-</button></li>";
+				document.getElementById("memoria").innerHTML += memList;
+			}
+			memHtml = document.getElementById("memoria").innerHTML;
+			memHtml = '<ul>' + memHtml + '</ul>';
+			document.getElementById("memoria").innerHTML = memHtml;
+		}
+	}
 	addEventListenerAll(element, events, fn) {
 		events.split(' ').forEach(event => {
 			element.addEventListener(event, fn, false);
@@ -207,10 +257,11 @@ class Win10CalculatorController {
 	}
 	clearLastChar(){
 		let nStr = this.getLastOperation();
-		if (nStr) {
+		console.log('nStr: ' + nStr + ' nStr.length: ' + nStr.toString().length);
+		if (nStr.toString().length > 0) { 
 			nStr = nStr.slice(0, -1);
 		} else {
-			nStr = "";
+			nStr = 0;
 		}
 	
 		this.setLastOperation(nStr);
@@ -409,7 +460,7 @@ class Win10CalculatorController {
 	}
 	execBtn(value) {
 		this.playAudio();
-		
+		// console.warn('value: ' + value);
 		switch (value) {
 			case 'MC':
 				this.memoryClearAll();
@@ -427,7 +478,7 @@ class Win10CalculatorController {
 				this.memoryStore();
 				break;
 			case 'Mˇ':
-				this.memoryHistoric();
+				this.toggleMemoryHistoric();
 				break;
 			case 'C':
 				this.clearAll();
@@ -548,5 +599,11 @@ class Win10CalculatorController {
 	}
 	set displayHistory(value) {
 		this._displayHistEl.innerHTML = value;
+	}
+	get displayMemoryHistory() {
+		return this._displayMemHistEl.innerHTML;
+	}
+	set displayMemoryHistory(value) {
+		this._displayMemHistEl.innerHTML = value;
 	}
 }
